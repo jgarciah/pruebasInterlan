@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Prueba</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+            <h:form>
+                <p:growl id="msgs" showDetail="true" />
+
+                <p:fieldset id="nuevoPariente" legend="Pariente" style="margin-top:30px; width:40%; margin-right: auto; margin-left: auto;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel value="Nombres"/>
+                        <p:inputText value="#{familiaBean.nuevoPariente.nombre}"/>
+
+                        <p:outputLabel value="Apellidos"/>
+                        <p:inputText value="#{familiaBean.nuevoPariente.apellido}"/>
+
+                        <p:outputLabel value="Cedula"/>
+                        <p:inputText value="#{familiaBean.nuevoPariente.cedulaIdentidad}"/>
+
+                        <p:outputLabel value="Sexo"/>
+                        <p:selectOneMenu value="#{familiaBean.nuevoPariente.sexo.id}">
+                            <f:selectItem itemLabel="Seleccione"/>
+                            <f:selectItem itemValue="1" itemLabel="Masculino"/>
+                            <f:selectItem itemValue="2" itemLabel="Femenino"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="Estado Civil"/>
+                        <p:selectOneMenu value="#{familiaBean.nuevoPariente.estadoCivil.id}">
+                            <f:selectItem itemLabel="Seleccione"/>
+                            <f:selectItem itemValue="1" itemLabel="Soltero"/>
+                            <f:selectItem itemValue="2" itemLabel="Casado"/>
+                            <f:selectItem itemValue="3" itemLabel="Viudo"/>
+                            <f:selectItem itemValue="4" itemLabel="Divorciado"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Edad"/>
+                        <p:inputText value="#{familiaBean.nuevoPariente.edad}"/>
+                        
+                        <p:outputLabel value="Tipo Familiar"/>
+                        <p:selectOneMenu value="#{familiaBean.nuevoPariente.tipoFamiliar.id}">
+                            <f:selectItem itemLabel="Seleccione"/>
+                            <f:selectItem itemValue="1" itemLabel="Padre"/>
+                            <f:selectItem itemValue="2" itemLabel="Madre"/>
+                            <f:selectItem itemValue="3" itemLabel="Hijo"/>
+                        </p:selectOneMenu>
+
+                        <p:commandButton value="Agregar Familiar" actionListener="#{familiaBean.agregarFamiliar()}" update="tablaFamilia nuevoPariente msgs datosFamilia"/>
+                        <p:commandButton value="Limpiar Formulario" actionListener="#{familiaBean.clearFormPariente()}" update="nuevoPariente"/>
+                    </h:panelGrid>
+                </p:fieldset>
+
+                <p:fieldset legend="Familia" style="margin-top:30px; width: 70%; margin-right: auto; margin-left: auto;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:dataTable id="tablaFamilia" value="#{familiaBean.familia.listParientes}" var="item">
+                            <p:column headerText="Persona">
+                                #{item.nombre} #{item.apellido}
+                            </p:column>
+                            <p:column headerText="Edad">
+                                #{item.edad}
+                            </p:column>
+                            <p:column headerText="Sexo">
+                                #{item.sexo.definicion}
+                            </p:column>
+                            <p:column headerText="Estado Civil">
+                                #{item.estadoCivil.definicion}
+                            </p:column>
+                            <p:column headerText="Tipo Familia">
+                                #{item.tipoFamiliar.definicion}
+                            </p:column>
+                            <p:column headerText="Despierto">
+                                #{item.estado}
+                            </p:column>
+                            <p:column headerText="Cambiar Estado">
+                                <p:commandButton value="Cambiar" actionListener="#{familiaBean.cambiarEstado(item)}" update="tablaFamilia"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </p:fieldset>
+                
+                <p:fieldset id="datosFamilia" legend="Datos de la familia" style="margin-top:30px; width:40%; margin-right: auto; margin-left: auto;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <p:outputLabel value="Total de integrantes"/>
+                        #{familiaBean.familia.countParientes}
+                        
+                        <p:outputLabel value="Número de hijo"/>
+                        #{familiaBean.familia.numeroHijos}
+
+                        <p:outputLabel value="Número de hombres: "/>
+                        #{familiaBean.familia.numeroHombres}
+
+                        <p:outputLabel value="Número de mujeres"/>
+                        #{familiaBean.familia.numeroMujeres}
+
+                        <p:outputLabel value="Hermano Mayor"/>
+                        #{familiaBean.familia.hermanoMayor.nombre} #{familiaBean.familia.hermanoMayor.apellido}
+                        
+                        <p:outputLabel value="Hermano Menor"/>
+                        #{familiaBean.familia.hermanoMenor.nombre} #{familiaBean.familia.hermanoMenor.apellido}
+                        
+                        <p:outputLabel value="Hermana Mayor"/>
+                        #{familiaBean.familia.hermanaMayor.nombre} #{familiaBean.familia.hermanaMayor.apellido}
+                        
+                        <p:outputLabel value="Hermana Menor"/>
+                        #{familiaBean.familia.hermanaMenor.nombre} #{familiaBean.familia.hermanaMenor.apellido}
+                    </h:panelGrid>
+                </p:fieldset>
+            </h:form>
+        </h:body>
+
+    </f:view>
+</html>
+
